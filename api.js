@@ -14,7 +14,7 @@ module.exports.getRiderIPFSLink = function ( ) {
     var account = common.getRiderAccount();
     var commuterzInstance = common.getCommuterzInstance();
         
-    return common.getWeb3().toAscii(commuterzInstance.getUserIPFSLink(account).toString(16));
+    return commuterzInstance.getUserIPFSLink(account);
 };
 
 ////////////////////////////////////////////////////////////////////////////////
