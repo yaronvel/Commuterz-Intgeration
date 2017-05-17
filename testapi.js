@@ -1,6 +1,10 @@
 var api = require('./api.js');
 
+api.getRiderBalance(function(err,result){
+   console.log(err,result);    
+});
 
-console.log(api.getRiderBalance());
-console.log(api.getLotteryBalance());
-console.log(api.getRiderIPFSLink());
+
+api.getRiderIPFSLink(function(err,result){
+   console.log(err,result);    
+});

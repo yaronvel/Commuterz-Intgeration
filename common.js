@@ -40,9 +40,11 @@ module.exports.getCommuterzInstance = function ( ) {
     return commuterzInstance;
 };
 
-module.exports.getTokenInstance = function ( ) {
-    var tokenAddress = commuterzInstance.token();
-    return tokenClass.at(tokenAddress);
+module.exports.getTokenInstance = function ( callback ) {
+    commuterzInstance.token(function(err,result){
+        var tokenAddress = result;
+        callback(err, tokenClass.at(tokenAddress));    
+    });
 };
 
 module.exports.getLotteryInstance = function ( ) {
