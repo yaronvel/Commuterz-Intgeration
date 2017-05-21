@@ -117,3 +117,10 @@ module.exports.driverApproveARide = function (rideId, callback ) {
 };
 
 ////////////////////////////////////////////////////////////////////////////////
+
+////////////////////////////////////////////////////////////////////////////////
+
+module.exports.driverEndsRide = function (rideId, callback ) {
+    var account = common.getDriverAccount();
+    common.getCommuterzInstance().endRide(rideId, {from:account,gas:500000}, callback );    
+};
