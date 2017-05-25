@@ -1,6 +1,22 @@
+var BigNumber = require('bignumber.js');
 var common = require('./common.js'); 
 
 ////////////////////////////////////////////////////////////////////////////////
+
+module.exports.register = function ( privateKey, ipfsLink, callback ) {
+    var contractAddress = common.getCommuterzAddress();
+    var commuterzInstance = common.getCommuterzInstance();
+    var txData = commuterzInstance.register.getData(ipfsLink);
+
+    return common.signAndSend( privateKey, 
+                               txData,
+                               "0x" + contractAddress.toString(16),
+                               0,
+                               callback );
+};
+
+////////////////////////////////////////////////////////////////////////////////
+
 
 module.exports.getRiderBalance = function ( callback ) {
     var account = common.getRiderAccount();
@@ -124,3 +140,33 @@ module.exports.driverEndsRide = function (rideId, callback ) {
     var account = common.getDriverAccount();
     common.getCommuterzInstance().endRide(rideId, {from:account,gas:500000}, callback );    
 };
+
+
+////////////////////////////////////////////////////////////////////////////////
+
+module.exports.privateKeyToAddress = function( privateKey ) {
+        return common.privateKeyToAddress(privateKey);    
+};
+
+////////////////////////////////////////////////////////////////////////////////
+
+module.exports.getPrivateKey = function( password, salt ) {
+    return common.getPrivateKey(password,salt);  
+};
+
+////////////////////////////////////////////////////////////////////////////////
+
+module.exports.getSomeEtherInRegistration = function( destAccount, callback ) {
+    var key = common.getPrivateKey("commuterz","");
+
+    return common.signAndSend( key, 
+                               "",
+                               destAccount,
+                               new BigNumber(10).pow(17), // 1/2 ether
+                               callback );
+      
+};
+
+////////////////////////////////////////////////////////////////////////////////
+
+

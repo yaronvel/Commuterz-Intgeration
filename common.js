@@ -1,5 +1,5 @@
 var BigNumber = require('bignumber.js');
-var Tx = require('ethereumjs-tx');
+var EthereumTx = require('ethereumjs-tx');
 var Web3 = require('web3');
 // create an instance of web3 using the HTTP provider.
 // NOTE in mist web3 is already available, so check first if its available before instantiating
@@ -95,4 +95,54 @@ module.exports.getDriverAccount = function ( ) {
     return driver;
 };
 
+////////////////////////////////////////////////////////////////////////////////
 
+module.exports.signAndSend = function ( userPrivateKey, 
+                                        txData,
+                                        destenationAddress,
+                                        value,
+                                        callback ) {
+    var userAccount = module.exports.privateKeyToAddress(userPrivateKey);
+    web3.eth.getTransactionCount(userAccount,
+                                 function(err,result){
+        if( err ) return callback(err, result);
+        var txParams = {
+            nonce: "0x" + result.toString(16),
+            gasPrice: '0x4A817C800',
+            gasLimit: '0x7A120',
+            to: destenationAddress,
+            value: "0x" + value.toString(16),
+            data: txData,
+            chainId: 3         
+        };
+        var tx = new EthereumTx(txParams);
+        tx.sign(userPrivateKey);
+        var raw = "0x" + tx.serialize().toString('hex');
+        web3.eth.sendRawTransaction(raw, callback);
+                                            
+    });    
+};
+
+////////////////////////////////////////////////////////////////////////////////
+
+module.exports.privateKeyToAddress = function( privateKey ) {
+        var txParams = {
+            nonce: "0x0",
+            gasPrice: '0x4A817C800',
+            gasLimit: '0x7A120',
+            to: "0x0000000000000000000000000000000000000000",
+            value: "0x0",
+            data: "0x00",         
+        };
+        var tx = new EthereumTx(txParams);
+        tx.sign(privateKey);
+        
+        return "0x" + tx.getSenderAddress().toString('hex');
+    
+};
+
+////////////////////////////////////////////////////////////////////////////////
+
+module.exports.getPrivateKey = function( password, salt ) {
+    return Buffer.from(web3.sha3(password + salt).substring(2),'hex');  
+};
