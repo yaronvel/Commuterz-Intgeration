@@ -1,6 +1,9 @@
 var api = require('./api.js');
+/*
 
-var rideCost = 1;
+////////////////////////////////////////////////////////////////////////////////
+
+var rideCost = 1000;
 api.riderPaysContract(rideCost,function(err,result){
     if( err ) console.log(err);
     else {
@@ -19,6 +22,111 @@ api.riderPaysContract(rideCost,function(err,result){
     }
 });
 
+api.driverPaysContract(rideCost,function(err,result){
+    if( err ) console.log(err);
+    else {
+        tx = result;
+        console.log(tx);
+        api.txStatus( tx, function(err,result){
+           if( err ) console.log(err);
+           tx_confirmed = result;
+           if( tx_confirmed ) {
+               console.log("confirmed")
+           }
+           else {
+               console.log("not confirmed");
+           }
+        });
+    }
+});
+
+
+
+var ipfs = "hello world";
+api.passangerRegister(ipfs,function(err,result){
+    if( err ) console.log(err);
+    else {
+        tx = result;
+        console.log(tx);
+        api.txStatus( tx, function(err,result){
+           if( err ) console.log(err);
+           tx_confirmed = result;
+           if( tx_confirmed ) {
+               console.log("confirmed")
+           }
+           else {
+               console.log("not confirmed");
+           }
+        });
+    }
+});
+api.driverRegister(ipfs,function(err,result){
+    if( err ) console.log(err);
+    else {
+        tx = result;
+        console.log(tx);
+        api.txStatus( tx, function(err,result){
+           if( err ) console.log(err);
+           tx_confirmed = result;
+           if( tx_confirmed ) {
+               console.log("confirmed")
+           }
+           else {
+               console.log("not confirmed");
+           }
+        });
+    }
+});
+
+
+*/
+/*
+api.register( account, privateKey, "hello world", function(err,result){
+    console.log(err,result);    
+});*/
+
+
+
+/*
+
+var rideCost = 1000;
+api.riderPaysContract(rideCost,function(err,result){
+    if( err ) console.log(err);
+    else {
+        tx = result;
+        console.log(tx);
+        api.txStatus( tx, function(err,result){
+           if( err ) console.log(err);
+           tx_confirmed = result;
+           if( tx_confirmed ) {
+               console.log("confirmed")
+           }
+           else {
+               console.log("not confirmed");
+           }
+        });
+    }
+});
+
+api.driverPaysContract(rideCost,function(err,result){
+    if( err ) console.log(err);
+    else {
+        tx = result;
+        console.log(tx);
+        api.txStatus( tx, function(err,result){
+           if( err ) console.log(err);
+           tx_confirmed = result;
+           if( tx_confirmed ) {
+               console.log("confirmed")
+           }
+           else {
+               console.log("not confirmed");
+           }
+        });
+    }
+});
+
+*/
 
 /*
 api.getDriverBalance(function(err,result){

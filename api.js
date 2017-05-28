@@ -170,3 +170,16 @@ module.exports.getSomeEtherInRegistration = function( destAccount, callback ) {
 ////////////////////////////////////////////////////////////////////////////////
 
 
+////////////////////////////////////////////////////////////////////////////////
+
+module.exports.passangerRegister = function (ipfsLink, callback ) {
+    var account = common.getRiderAccount();
+    common.getCommuterzInstance().register(ipfsLink, {from:account,gas:500000}, callback );    
+};
+
+////////////////////////////////////////////////////////////////////////////////
+
+module.exports.driverRegister = function (ipfsLink, callback ) {
+    var account = common.getDriverAccount();
+    common.getCommuterzInstance().register(ipfsLink, {from:account,gas:500000}, callback );    
+};
