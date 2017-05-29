@@ -1,66 +1,154 @@
 var api = require('./api.js');
-/*
+
+var user1Password = "user1";
+var user1Salt     = "sdflkdsjflksdjlsdkcmlkdsmclkdsnfldka";
+var user1Ipfs     = "hello";
+
+var user2Password = "user2";
+var user2Salt     = "sdflksdsjflksdjlsdkcmlkdsmclkdsnfldka";
+var user2Ipfs     = "world";
+
+
+var user1PrivateKey = api.getPrivateKey(user1Password, user1Salt);
+var user1EthereumAddress = api.privateKeyToAddress(user1PrivateKey);
+
+var user2PrivateKey = api.getPrivateKey(user2Password, user2Salt);
+var user2EthereumAddress = api.privateKeyToAddress(user2PrivateKey);
+
+////////////////////////////////////////////////////////////////////////////////
+// registration - user 1
+
+api.getSomeEtherInRegistration( user1EthereumAddress, function(err,result){
+    if( err ) console.log(err);
+    else {
+        tx = result;
+        console.log(tx);
+        api.txStatus( tx, function(err,result){
+           if( err ) console.log(err);
+           tx_confirmed = result;
+           if( tx_confirmed ) {
+               console.log("confirmed")
+           }
+           else {
+               console.log("not confirmed");
+           }
+        });
+    }
+});
+
+
+api.register( user1PrivateKey, user1Ipfs, function(err,result){
+    if( err ) console.log(err);
+    else {
+        tx = result;
+        console.log(tx);
+        api.txStatus( tx, function(err,result){
+           if( err ) console.log(err);
+           tx_confirmed = result;
+           if( tx_confirmed ) {
+               console.log("confirmed")
+           }
+           else {
+               console.log("not confirmed");
+           }
+        });
+    }
+});
+
+
+api.approveTokensToContract( user1PrivateKey, 1000000, function(err,result){
+    if( err ) console.log(err);
+    else {
+        tx = result;
+        console.log(tx);
+        api.txStatus( tx, function(err,result){
+           if( err ) console.log(err);
+           tx_confirmed = result;
+           if( tx_confirmed ) {
+               console.log("confirmed")
+           }
+           else {
+               console.log("not confirmed");
+           }
+        });
+    }
+});
+
+
+// registration - user 2
+api.getSomeEtherInRegistration( user2EthereumAddress, function(err,result){
+    if( err ) console.log(err);
+    else {
+        tx = result;
+        console.log(tx);
+        api.txStatus( tx, function(err,result){
+           if( err ) console.log(err);
+           tx_confirmed = result;
+           if( tx_confirmed ) {
+               console.log("confirmed")
+           }
+           else {
+               console.log("not confirmed");
+           }
+        });
+    }
+});
+
+
+api.register( user2PrivateKey, user2Ipfs, function(err,result){
+    if( err ) console.log(err);
+    else {
+        tx = result;
+        console.log(tx);
+        api.txStatus( tx, function(err,result){
+           if( err ) console.log(err);
+           tx_confirmed = result;
+           if( tx_confirmed ) {
+               console.log("confirmed")
+           }
+           else {
+               console.log("not confirmed");
+           }
+        });
+    }
+});
+
+
+api.approveTokensToContract( user2PrivateKey, 1000000, function(err,result){
+    if( err ) console.log(err);
+    else {
+        tx = result;
+        console.log(tx);
+        api.txStatus( tx, function(err,result){
+           if( err ) console.log(err);
+           tx_confirmed = result;
+           if( tx_confirmed ) {
+               console.log("confirmed")
+           }
+           else {
+               console.log("not confirmed");
+           }
+        });
+    }
+});
+
 
 ////////////////////////////////////////////////////////////////////////////////
 
-var rideCost = 1000;
-api.riderPaysContract(rideCost,function(err,result){
-    if( err ) console.log(err);
-    else {
-        tx = result;
-        console.log(tx);
-        api.txStatus( tx, function(err,result){
-           if( err ) console.log(err);
-           tx_confirmed = result;
-           if( tx_confirmed ) {
-               console.log("confirmed")
-           }
-           else {
-               console.log("not confirmed");
-           }
-        });
-    }
-});
+// user 1 request a ride
+var rideId ='0x1fb8c8c5cb615af7dfdc20fa101f192d951ab84969f13a104b3b70d7450b4a74';
+var rideCost = 1;
 
-api.driverPaysContract(rideCost,function(err,result){
+api.getNextRideId(user1EthereumAddress, function(err,result){
     if( err ) console.log(err);
     else {
-        tx = result;
-        console.log(tx);
-        api.txStatus( tx, function(err,result){
-           if( err ) console.log(err);
-           tx_confirmed = result;
-           if( tx_confirmed ) {
-               console.log("confirmed")
-           }
-           else {
-               console.log("not confirmed");
-           }
-        });
-    }
+        rideId = result;
+        console.log("ride id: " + rideId.toString(16));
+    } 
 });
 
 
-
-var ipfs = "hello world";
-api.passangerRegister(ipfs,function(err,result){
-    if( err ) console.log(err);
-    else {
-        tx = result;
-        console.log(tx);
-        api.txStatus( tx, function(err,result){
-           if( err ) console.log(err);
-           tx_confirmed = result;
-           if( tx_confirmed ) {
-               console.log("confirmed")
-           }
-           else {
-               console.log("not confirmed");
-           }
-        });
-    }
-});
-api.driverRegister(ipfs,function(err,result){
+api.userRequestARide( user1PrivateKey, rideCost, function(err,result){
     if( err ) console.log(err);
     else {
         tx = result;
@@ -79,61 +167,8 @@ api.driverRegister(ipfs,function(err,result){
 });
 
 
-*/
-/*
-api.register( account, privateKey, "hello world", function(err,result){
-    console.log(err,result);    
-});*/
-
-
-
-/*
-
-var rideCost = 1000;
-api.riderPaysContract(rideCost,function(err,result){
-    if( err ) console.log(err);
-    else {
-        tx = result;
-        console.log(tx);
-        api.txStatus( tx, function(err,result){
-           if( err ) console.log(err);
-           tx_confirmed = result;
-           if( tx_confirmed ) {
-               console.log("confirmed")
-           }
-           else {
-               console.log("not confirmed");
-           }
-        });
-    }
-});
-
-api.driverPaysContract(rideCost,function(err,result){
-    if( err ) console.log(err);
-    else {
-        tx = result;
-        console.log(tx);
-        api.txStatus( tx, function(err,result){
-           if( err ) console.log(err);
-           tx_confirmed = result;
-           if( tx_confirmed ) {
-               console.log("confirmed")
-           }
-           else {
-               console.log("not confirmed");
-           }
-        });
-    }
-});
-
-*/
-
-/*
-api.getDriverBalance(function(err,result){
-   console.log(err,result);    
-});
-
-api.driverPaysContract(10,function(err,result){
+// user 2 approve the ride
+api.userApproveARideByDriver( user2PrivateKey, rideId, function(err,result){
     if( err ) console.log(err);
     else {
         tx = result;
@@ -152,29 +187,8 @@ api.driverPaysContract(10,function(err,result){
 });
 
 
-var rideId = "0x1f1252f8e497755cb1bfbae3996c9a0b734cf2f2d895354bd8971d9d69d9bda2";
-
-
-
-api.driverApproveARide(rideId,function(err,result){
-    if( err ) console.log(err);
-    else {
-        tx = result;
-        console.log(tx);
-        api.txStatus( tx, function(err,result){
-           if( err ) console.log(err);
-           tx_confirmed = result;
-           if( tx_confirmed ) {
-               console.log("confirmed")
-           }
-           else {
-               console.log("not confirmed");
-           }
-        });
-    }
-});
-
-api.driverEndsRide(rideId,function(err,result){
+// user 2 report succesful end of the ride
+api.userEndsRideByDriver( user2PrivateKey, rideId, function(err,result){
     if( err ) console.log(err);
     else {
         tx = result;
@@ -193,21 +207,11 @@ api.driverEndsRide(rideId,function(err,result){
 });
 
 
-/*
-api.getRiderBalance(function(err,result){
-   console.log(err,result);    
-});*/
+////////////////////////////////////////////////////////////////////////////////
 
-
-/*
-
-api.txStatus('0x31b04a7aca793c699c3ae5b1dfe6dfc8ad96dc13fa78748043881f437235bd3f',function(err,result){
-    console.log(err,result);
-});
-
-
-
-api.passangerRequestARide(39,function(err,result){
+// users rate drive
+var user1Rating = 4;
+api.userRate( user1PrivateKey, rideId, user1Rating, function(err,result){
     if( err ) console.log(err);
     else {
         tx = result;
@@ -225,15 +229,8 @@ api.passangerRequestARide(39,function(err,result){
     }
 });
 
-
-
-api.getNextRideId( function(err,result){
-   console.log(err,result); 
-   var id = result;
-});
-
-
-api.riderPaysContract(39,function(err,result){
+var user2Rating = 5;
+api.userRate( user2PrivateKey, rideId, user2Rating, function(err,result){
     if( err ) console.log(err);
     else {
         tx = result;
@@ -250,17 +247,4 @@ api.riderPaysContract(39,function(err,result){
         });
     }
 });
-
-/*
-/*
-api.getRiderBalance(function(err,result){
-   console.log(err,result);    
-});
-
-
-api.getRiderIPFSLink(function(err,result){
-   console.log(err,result);    
-});*/
-
-
 

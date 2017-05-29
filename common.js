@@ -23,16 +23,9 @@ var tokenClass = web3.eth.contract(tokenABI);
 var lotteryABI = [{"constant":true,"inputs":[],"name":"totalAmount","outputs":[{"name":"","type":"uint256"}],"payable":false,"type":"function"},{"constant":false,"inputs":[{"name":"user","type":"address"},{"name":"amount","type":"uint256"}],"name":"addTicket","outputs":[],"payable":false,"type":"function"},{"constant":true,"inputs":[],"name":"owner","outputs":[{"name":"","type":"address"}],"payable":false,"type":"function"},{"constant":true,"inputs":[{"name":"seed","type":"uint256"}],"name":"chooseWinner","outputs":[{"name":"","type":"address"}],"payable":false,"type":"function"},{"constant":false,"inputs":[],"name":"collectPrize","outputs":[],"payable":false,"type":"function"},{"constant":false,"inputs":[{"name":"theWinner","type":"address"}],"name":"setWinner","outputs":[],"payable":false,"type":"function"},{"constant":true,"inputs":[],"name":"winner","outputs":[{"name":"","type":"address"}],"payable":false,"type":"function"},{"inputs":[{"name":"_token","type":"address"}],"payable":false,"type":"constructor"}];
 var lotteryClass = web3.eth.contract(lotteryABI);
 
+var gasLimit = new BigNumber(500000);
 
 
-
-
-
-var rider = '0x69a397a6a1e43928bab72f44ca45c21f955f3c6d';
-var driver = '0x791ec85823114b592112713bf4a176ac1d0cf6ef';
-
-
-var currentRideId = "0xdead";
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -54,46 +47,16 @@ module.exports.getCommuterzAddress = function ( ) {
 
 ////////////////////////////////////////////////////////////////////////////////
 
-module.exports.getRiderAddress = function ( ) {
-    return rider;
-};
-
-////////////////////////////////////////////////////////////////////////////////
-
-module.exports.getDriverAddress = function ( ) {
-    return driver;
-};
-
-////////////////////////////////////////////////////////////////////////////////
-
 module.exports.getWeb3 = function ( ) {
     return web3;
 };
 
 ////////////////////////////////////////////////////////////////////////////////
 
-module.exports.getRideCost = function ( ) {
-    return 10;
+module.exports.getGasLimit = function ( ) {
+    return parseInt(gasLimit.toString(10));
 };
 
-////////////////////////////////////////////////////////////////////////////////
-
-module.exports.getCurrentRideId = function ( ) {
-    return "0xdd328abd00b78eba32f7f3f57208502d42eae97dd80695de8ec20a67ba3d7897";
-};
-
-
-////////////////////////////////////////////////////////////////////////////////
-
-module.exports.getRiderAccount = function ( ) {
-    return rider;
-};
-
-////////////////////////////////////////////////////////////////////////////////
-
-module.exports.getDriverAccount = function ( ) {
-    return driver;
-};
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -109,7 +72,7 @@ module.exports.signAndSend = function ( userPrivateKey,
         var txParams = {
             nonce: "0x" + result.toString(16),
             gasPrice: '0x4A817C800',
-            gasLimit: '0x7A120',
+            gasLimit: '0x' + gasLimit.toString(16),
             to: destenationAddress,
             value: "0x" + value.toString(16),
             data: txData,
@@ -129,7 +92,7 @@ module.exports.privateKeyToAddress = function( privateKey ) {
         var txParams = {
             nonce: "0x0",
             gasPrice: '0x4A817C800',
-            gasLimit: '0x7A120',
+            gasLimit: '0x' + gasLimit.toString(16),
             to: "0x0000000000000000000000000000000000000000",
             value: "0x0",
             data: "0x00",         

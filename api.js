@@ -4,13 +4,12 @@ var common = require('./common.js');
 ////////////////////////////////////////////////////////////////////////////////
 
 module.exports.register = function ( privateKey, ipfsLink, callback ) {
-    var contractAddress = common.getCommuterzAddress();
     var commuterzInstance = common.getCommuterzInstance();
     var txData = commuterzInstance.register.getData(ipfsLink);
 
     return common.signAndSend( privateKey, 
                                txData,
-                               "0x" + contractAddress.toString(16),
+                               commuterzInstance.address,
                                0,
                                callback );
 };
@@ -18,8 +17,8 @@ module.exports.register = function ( privateKey, ipfsLink, callback ) {
 ////////////////////////////////////////////////////////////////////////////////
 
 
-module.exports.getRiderBalance = function ( callback ) {
-    var account = common.getRiderAccount();
+module.exports.getUserBalance = function ( ethereumAddress, callback ) {
+    var account = ethereumAddress;
     common.getTokenInstance(function(err,result){
         tokenInstance = result;
         if( err ) return callback(err, result);
@@ -31,8 +30,8 @@ module.exports.getRiderBalance = function ( callback ) {
 
 ////////////////////////////////////////////////////////////////////////////////
 
-module.exports.getRiderIPFSLink = function ( callback ) {
-    var account = common.getRiderAccount();
+module.exports.getUserIPFSLink = function ( ethereumAddress, callback ) {
+    var account = ethereumAddress;
     var commuterzInstance = common.getCommuterzInstance();
         
     return commuterzInstance.getUserIPFSLink(account, function(err,result){
@@ -40,106 +39,97 @@ module.exports.getRiderIPFSLink = function ( callback ) {
     });
 };
 
+
 ////////////////////////////////////////////////////////////////////////////////
 
-module.exports.riderPaysContract = function ( rideCost, callback ) {
-    var account = common.getRiderAccount();
-
-    var account = common.getRiderAccount();
+module.exports.approveTokensToContract = function ( privateKey, rideCost, callback ) {
     common.getTokenInstance(function(err,result){
         tokenInstance = result;
         if( err ) return callback(err, result);
-        tokenInstance.approve(common.getCommuterzAddress(), rideCost,{from:account,gas:500000}, function(err,result){
-            if( err ) return callback(err,result);
-            callback(err,result);
-        });
+        
+        var txData = tokenInstance.approve.getData(common.getCommuterzAddress(), rideCost);
+
+        return common.signAndSend( privateKey, 
+                                   txData,
+                                   tokenInstance.address,
+                                   0,
+                                   callback );
     });        
 };
 
 
 ////////////////////////////////////////////////////////////////////////////////
 
-module.exports.getNextRideId = function ( callback ) {
-    var account = common.getRiderAccount();
+module.exports.getNextRideId = function ( ethereumAddress, callback ) {
+    var account = ethereumAddress;
     common.getCommuterzInstance().getRideId(account, callback );    
 };
 
 ////////////////////////////////////////////////////////////////////////////////
 
-module.exports.passangerRequestARide = function (rideCost, callback ) {
-    var account = common.getRiderAccount();
-    common.getCommuterzInstance().passangerRideRequest(rideCost, {from:account,gas:500000}, callback );    
+module.exports.userRequestARide = function (privateKey, rideCost, callback ) {
+    var txData = common.getCommuterzInstance().passangerRideRequest.getData(rideCost );
+    return common.signAndSend( privateKey, 
+                               txData,
+                               common.getCommuterzInstance().address,
+                               0,
+                               callback );        
 };
  
-//////////////////////////////////////////////////////////////////////////////// 
- 
- 
-
 ////////////////////////////////////////////////////////////////////////////////
 
 module.exports.txStatus = function ( txhash, callback ) {
     var web3 = common.getWeb3();
     web3.eth.getTransactionReceipt(txhash, function(err,result){
        if( err ) return callback(err,false);
-       callback(err,result !== null ); 
+       if( result === null ) return callback(err,false);
+       // else
+       if( parseInt(result.gasUsed.toString(10)) >= common.getGasLimit() ) {
+           return callback( "tx failed", true );
+       }
+       else {
+           return callback( err, true );           
+       }
     });
 };
 
 
 ////////////////////////////////////////////////////////////////////////////////
 
-////////////////////////////////////////////////////////////////////////////////
-
-module.exports.getDriverIPFSLink = function ( callback ) {
-    var account = common.getDriverAccount();
-    var commuterzInstance = common.getCommuterzInstance();
+module.exports.userApproveARideByDriver = function (privateKey, rideId, callback ) {
+    var txData = common.getCommuterzInstance().driverAcceptRequest.getData(rideId);
+    return common.signAndSend( privateKey, 
+                               txData,
+                               common.getCommuterzInstance().address,
+                               0,
+                               callback );        
         
-    return commuterzInstance.getUserIPFSLink(account, function(err,result){
-        callback(err,result);
-    });
 };
 
 ////////////////////////////////////////////////////////////////////////////////
 
-module.exports.driverPaysContract = function ( rideCost, callback ) {
-    var account = common.getDriverAccount();
-    common.getTokenInstance(function(err,result){
-        tokenInstance = result;
-        if( err ) return callback(err, result);
-        tokenInstance.approve(common.getCommuterzAddress(), rideCost,{from:account,gas:500000}, function(err,result){
-            if( err ) return callback(err,result);
-            callback(err,result);
-        });
-    });        
-};
-////////////////////////////////////////////////////////////////////////////////
-
-module.exports.getDriverBalance = function ( callback ) {
-    var account = common.getDriverAccount();
-    common.getTokenInstance(function(err,result){
-        tokenInstance = result;
-        if( err ) return callback(err, result);
-        tokenInstance.balanceOf(account, function(err,result){
-            callback(err,parseInt(result.toString(10)));
-        });
-    });
+module.exports.userEndsRideByDriver = function (privateKey, rideId, callback ) {
+    var txData = common.getCommuterzInstance().endRide.getData(rideId);
+    return common.signAndSend( privateKey, 
+                               txData,
+                               common.getCommuterzInstance().address,
+                               0,
+                               callback );        
+        
 };
 
 ////////////////////////////////////////////////////////////////////////////////
 
-module.exports.driverApproveARide = function (rideId, callback ) {
-    var account = common.getDriverAccount();
-    common.getCommuterzInstance().driverAcceptRequest(rideId, {from:account,gas:500000}, callback );    
+module.exports.userRate = function (privateKey, rideId, rating, callback ) {
+    var txData = common.getCommuterzInstance().rate.getData(rideId,rating);
+    return common.signAndSend( privateKey, 
+                               txData,
+                               common.getCommuterzInstance().address,
+                               0,
+                               callback );
 };
 
-////////////////////////////////////////////////////////////////////////////////
 
-////////////////////////////////////////////////////////////////////////////////
-
-module.exports.driverEndsRide = function (rideId, callback ) {
-    var account = common.getDriverAccount();
-    common.getCommuterzInstance().endRide(rideId, {from:account,gas:500000}, callback );    
-};
 
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -168,18 +158,3 @@ module.exports.getSomeEtherInRegistration = function( destAccount, callback ) {
 };
 
 ////////////////////////////////////////////////////////////////////////////////
-
-
-////////////////////////////////////////////////////////////////////////////////
-
-module.exports.passangerRegister = function (ipfsLink, callback ) {
-    var account = common.getRiderAccount();
-    common.getCommuterzInstance().register(ipfsLink, {from:account,gas:500000}, callback );    
-};
-
-////////////////////////////////////////////////////////////////////////////////
-
-module.exports.driverRegister = function (ipfsLink, callback ) {
-    var account = common.getDriverAccount();
-    common.getCommuterzInstance().register(ipfsLink, {from:account,gas:500000}, callback );    
-};
