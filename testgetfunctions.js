@@ -8,12 +8,36 @@ var user2Password = "user2";
 var user2Salt     = "sdflksdsjflksdjlsdkcmlkdsmclkdsnfldka";
 var user2Ipfs     = "world";
 
+var user3Password = "user3";
+var user3Salt     = "sdflksdsjflksdjlsdkcmlkdsmclkdsnfldk3";
+var user3Ipfs     = "world!";
+
 
 var user1PrivateKey = api.getPrivateKey(user1Password, user1Salt);
 var user1EthereumAddress = api.privateKeyToAddress(user1PrivateKey);
 
 var user2PrivateKey = api.getPrivateKey(user2Password, user2Salt);
 var user2EthereumAddress = api.privateKeyToAddress(user2PrivateKey);
+
+
+var user3PrivateKey = api.getPrivateKey(user3Password, user3Salt);
+var user3EthereumAddress = api.privateKeyToAddress(user3PrivateKey);
+
+
+api.isRegistered( user3EthereumAddress, function(err,result){
+    if( err ) console.log(err);
+    else {
+        console.log( "user 3 registered = " + result);
+    }
+});
+
+api.isRegistered( user2EthereumAddress, function(err,result){
+    if( err ) console.log(err);
+    else {
+        console.log( "user 2 registered = " + result);
+    }
+});
+
 
 
 api.getUserBalance(user1EthereumAddress, function(err,result){

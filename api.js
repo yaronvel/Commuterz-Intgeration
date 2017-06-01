@@ -39,6 +39,15 @@ module.exports.getUserIPFSLink = function ( ethereumAddress, callback ) {
     });
 };
 
+////////////////////////////////////////////////////////////////////////////////
+
+module.exports.isRegistered = function ( ethereumAddress, callback ) {
+    module.exports.getUserIPFSLink( ethereumAddress, function(err,result){
+        if( err ) return callback(err,result);
+        callback(err,result.toString() !== "" ); 
+    });
+};
+
 
 ////////////////////////////////////////////////////////////////////////////////
 
