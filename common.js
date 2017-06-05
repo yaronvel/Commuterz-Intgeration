@@ -72,7 +72,7 @@ module.exports.signAndSend = function ( userPrivateKey,
                                  function(err,result){
         if( err ) return callback(err, result);
         var txParams = {
-            nonce: result.toString(16),
+            nonce: "0x" + result.toString(16),
             gasPrice: new BigNumber("0x4A817C800"),
             gasLimit: gasLimit,
             to: destenationAddress,
@@ -80,6 +80,7 @@ module.exports.signAndSend = function ( userPrivateKey,
             data: txData,
             //chainId: 3         
         };
+        
         var raw = signer.sign(txParams, userPrivateKey);
         web3.eth.sendRawTransaction(raw, callback);
                                             
