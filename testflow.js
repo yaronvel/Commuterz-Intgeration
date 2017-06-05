@@ -1,11 +1,11 @@
 var api = require('./api.js');
 
 var user1Password = "user1";
-var user1Salt     = "sdflkdsjflksdjlsdkcmlkdsmclkdsnfldka";
+var user1Salt     = "0x2e60fa334035743f8bf559cbf01329ce4cbc97f9fb0d783c0f09f98ca552234a";
 var user1Ipfs     = "hello";
 
 var user2Password = "user2";
-var user2Salt     = "sdflksdsjflksdjlsdkcmlkdsmclkdsnfldka";
+var user2Salt     = "0x2e60fa334035743f8bf559cbf01329ce4cbc97f9fb0d783c0f09f98ca552234a";
 var user2Ipfs     = "world";
 
 

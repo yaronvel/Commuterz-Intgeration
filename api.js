@@ -157,7 +157,7 @@ module.exports.getPrivateKey = function( password, salt ) {
 
 module.exports.getSomeEtherInRegistration = function( destAccount, callback ) {
     var key = common.getPrivateKey("commuterz","");
-
+    console.log(common.privateKeyToAddress(key));
     return common.signAndSend( key, 
                                "",
                                destAccount,
