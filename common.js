@@ -6,7 +6,7 @@ var Web3 = require('web3');
 // create an instance of web3 using the HTTP provider.
 // NOTE in mist web3 is already available, so check first if its available before instantiating
 url = "http://52.170.217.85:8545/jsonrpc";
-
+url = "https://kovan.infura.io/"
 //url = "https://mainnet.infura.io:8545" 
 var web3 = new Web3(new Web3.providers.HttpProvider(url));
 
