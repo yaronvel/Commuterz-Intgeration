@@ -214,3 +214,4 @@ module.exports.winnerCollectPrize = function ( winnerPrivateKey, callback ) {
     });    
 };
 
+                                                                                                                                                                                                        
