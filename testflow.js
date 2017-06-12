@@ -15,9 +15,11 @@ var user1EthereumAddress = api.privateKeyToAddress(user1PrivateKey);
 var user2PrivateKey = api.getPrivateKey(user2Password, user2Salt);
 var user2EthereumAddress = api.privateKeyToAddress(user2PrivateKey);
 
+
+
 ////////////////////////////////////////////////////////////////////////////////
 // registration - user 1
-
+/*
 api.getSomeEtherInRegistration( user1EthereumAddress, function(err,result){
     if( err ) console.log(err);
     else {
@@ -136,8 +138,8 @@ api.approveTokensToContract( user2PrivateKey, 1000000, function(err,result){
 ////////////////////////////////////////////////////////////////////////////////
 
 // user 1 request a ride
-var rideId ='0x1fb8c8c5cb615af7dfdc20fa101f192d951ab84969f13a104b3b70d7450b4a74';
-var rideCost = 1;
+var rideId ='0xcbe6249e1223afca27a8ee0f514f0f5a3c92bb43fdb56a9818cff0aa52059b12';
+var rideCost = 4;
 
 api.getNextRideId(user1EthereumAddress, function(err,result){
     if( err ) console.log(err);
@@ -167,6 +169,8 @@ api.userRequestARide( user1PrivateKey, rideCost, function(err,result){
 });
 
 
+
+
 // user 2 approve the ride
 api.userApproveARideByDriver( user2PrivateKey, rideId, function(err,result){
     if( err ) console.log(err);
@@ -185,6 +189,7 @@ api.userApproveARideByDriver( user2PrivateKey, rideId, function(err,result){
         });
     }
 });
+
 
 
 // user 2 report succesful end of the ride
@@ -208,6 +213,8 @@ api.userEndsRideByDriver( user2PrivateKey, rideId, function(err,result){
 
 
 ////////////////////////////////////////////////////////////////////////////////
+var rideId ='0xcbe6249e1223afca27a8ee0f514f0f5a3c92bb43fdb56a9818cff0aa52059b12';
+var rideCost = 4;
 
 // users rate drive
 var user1Rating = 4;
@@ -248,3 +255,8 @@ api.userRate( user2PrivateKey, rideId, user2Rating, function(err,result){
     }
 });
 
+*/
+
+api.runGame( function(err,result){
+    console.log(err,result); 
+});

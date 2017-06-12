@@ -167,3 +167,50 @@ module.exports.getSomeEtherInRegistration = function( destAccount, callback ) {
 };
 
 ////////////////////////////////////////////////////////////////////////////////
+
+module.exports.getGameBalance = function ( callback ) {
+    common.getGameInstance( function( err, instance ){
+        if( err ) return callback(err, null);
+        common.getTokenInstance( function(err,token){
+            if( err ) return callback(err,null);
+            return token.balanceOf(instance.address, callback); 
+        });
+    });
+};
+
+////////////////////////////////////////////////////////////////////////////////
+
+module.exports.runGame = function ( callback ) {
+    var ownerPrivateKey = common.getPrivateKey("commuterz","");
+    var txData = common.getCommuterzInstance().doGame.getData();
+    return common.signAndSend( ownerPrivateKey, 
+                               txData,
+                               common.getCommuterzInstance().address,
+                               0,
+                               callback );        
+};
+
+////////////////////////////////////////////////////////////////////////////////
+
+module.exports.getGameWinner = function ( callback ) {
+    common.getGameInstance( function( err, instance ){
+        if( err ) return callback(err, null);
+        instance.winner(callback);
+    });    
+};
+
+////////////////////////////////////////////////////////////////////////////////
+
+module.exports.winnerCollectPrize = function ( winnerPrivateKey, callback ) {
+    common.getGameInstance( function( err, instance ){
+        if( err ) return callback(err, null);
+        
+        var txData = instance.winner.getData();
+        return common.signAndSend( winnerPrivateKey, 
+                                   txData,
+                                   instance.address,
+                                   0,
+                                   callback );        
+    });    
+};
+

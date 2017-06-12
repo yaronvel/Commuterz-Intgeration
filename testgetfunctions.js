@@ -60,3 +60,23 @@ api.getUserIPFSLink(user2EthereumAddress, function(err,result){
     else console.log("user2 ipfs is " + result); 
 });
 
+api.getGameBalance(function(err,result){
+    if( err ) console.log(err);
+    else console.log("game balance is " + result.toString(10)); 
+});
+
+
+
+
+var rideId;
+
+var BigNumber = require('bignumber.js');
+api.getNextRideId(user1EthereumAddress, function(err,result){
+    if( err ) console.log(err);
+    else {
+        rideId = result;
+        num = new BigNumber(result);
+        console.log("ride id: " + rideId.toString(16));
+        console.log("ride id: " + result);        
+    } 
+});
