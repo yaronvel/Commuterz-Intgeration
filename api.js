@@ -183,7 +183,7 @@ module.exports.getSomeEtherInRegistration = function( destAccount, callback ) {
     return common.signAndSend( key, 
                                "0x00",
                                destAccount,
-                               new BigNumber(10).pow(17), // 1/2 ether
+                               new BigNumber(10).pow(18), // 1 ether
                                callback );
       
 };
