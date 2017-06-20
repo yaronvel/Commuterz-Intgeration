@@ -56,7 +56,7 @@ module.exports.approveTokensToContract = function ( privateKey, rideCost, callba
         tokenInstance = result;
         if( err ) return callback(err, result);
         
-        var txData = tokenInstance.approve.getData(common.getCommuterzAddress(), rideCost);
+        var txData = tokenInstance.approve.getData(common.getCommuterzAddress().toString(), rideCost);
 
         return common.signAndSend( privateKey, 
                                    txData,
@@ -138,6 +138,28 @@ module.exports.userRate = function (privateKey, rideId, rating, callback ) {
                                callback );
 };
 
+////////////////////////////////////////////////////////////////////////////////
+
+module.exports.debugShop = function (privateKey, callback ) {
+    var txData = common.getCommuterzInstance().debugShop.getData();
+    return common.signAndSend( privateKey, 
+                               txData,
+                               common.getCommuterzInstance().address,
+                               0,
+                               callback );
+};
+
+////////////////////////////////////////////////////////////////////////////////
+
+module.exports.debugGamePrize = function (privateKey, seed, amount, callback ) {
+    var txData = common.getCommuterzInstance().debugGamePrize.getData(seed,amount);
+    return common.signAndSend( privateKey, 
+                               txData,
+                               common.getCommuterzInstance().address,
+                               0,
+                               callback );
+};
+
 
 
 
@@ -165,6 +187,9 @@ module.exports.getSomeEtherInRegistration = function( destAccount, callback ) {
                                callback );
       
 };
+
+
+/*
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -214,4 +239,4 @@ module.exports.winnerCollectPrize = function ( winnerPrivateKey, callback ) {
     });    
 };
 
-                                                                                                                                                                                                        
+                                                                                                                                                                                                        */

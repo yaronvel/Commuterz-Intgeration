@@ -2,6 +2,8 @@ var api = require('./api.js');
 
 var user1Password = "user1";
 var user1Salt     = "0x2e60fa334035743f8bf559cbf01329ce4cbc97f9fb0d783c0f09f98ca552234a";
+
+
 var user1Ipfs     = "hello";
 
 var user2Password = "user2";
@@ -14,6 +16,47 @@ var user1EthereumAddress = api.privateKeyToAddress(user1PrivateKey);
 
 var user2PrivateKey = api.getPrivateKey(user2Password, user2Salt);
 var user2EthereumAddress = api.privateKeyToAddress(user2PrivateKey);
+
+/*
+api.debugShop( user1PrivateKey, function(err,result){
+    if( err ) console.log(err);
+    else {
+        tx = result;
+        console.log(tx);
+        api.txStatus( tx, function(err,result){
+           if( err ) console.log(err);
+           tx_confirmed = result;
+           if( tx_confirmed ) {
+               console.log("confirmed")
+           }
+           else {
+               console.log("not confirmed");
+           }
+        });
+    }
+});
+*/
+
+api.debugGamePrize( user1PrivateKey, 0, 1000, function(err,result){
+    if( err ) console.log(err);
+    else {
+        tx = result;
+        console.log(tx);
+        api.txStatus( tx, function(err,result){
+           if( err ) console.log(err);
+           tx_confirmed = result;
+           if( tx_confirmed ) {
+               console.log("confirmed")
+           }
+           else {
+               console.log("not confirmed");
+           }
+        });
+    }
+});
+
+
+
 
 
 
@@ -256,7 +299,7 @@ api.userRate( user2PrivateKey, rideId, user2Rating, function(err,result){
 });
 
 */
-
+/*
 api.runGame( function(err,result){
     console.log(err,result); 
-});
+});*/
