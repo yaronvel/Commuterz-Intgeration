@@ -24,6 +24,16 @@ var user3PrivateKey = api.getPrivateKey(user3Password, user3Salt);
 var user3EthereumAddress = api.privateKeyToAddress(user3PrivateKey);
 
 
+api.getNumUsers(function(err,result){
+    if( err ) console.log(err);
+    else {
+        console.log( "number of users = " + result);
+    }
+});
+
+
+/*
+
 api.isRegistered( user3EthereumAddress, function(err,result){
     if( err ) console.log(err);
     else {
@@ -80,3 +90,4 @@ api.getNextRideId(user1EthereumAddress, function(err,result){
         console.log("ride id: " + result);        
     } 
 });
+*/

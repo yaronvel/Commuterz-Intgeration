@@ -189,6 +189,14 @@ module.exports.getSomeEtherInRegistration = function( destAccount, callback ) {
 };
 
 
+////////////////////////////////////////////////////////////////////////////////
+
+module.exports.getNumUsers = function ( callback ) {
+    return common.getCommuterzInstance().numUsers(callback);
+};
+
+
+
 /*
 
 ////////////////////////////////////////////////////////////////////////////////
